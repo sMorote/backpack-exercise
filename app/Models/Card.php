@@ -9,4 +9,13 @@ class Card extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+
+    protected $table = 'cards';
+
+    protected $guarded = ['id'];
+
+    public function collections()
+    {
+        return $this->belongsToMany('App\Models\Collection', 'card_collections');
+    }
 }

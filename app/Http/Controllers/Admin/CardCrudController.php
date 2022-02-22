@@ -62,9 +62,18 @@ class CardCrudController extends CrudController
     {
         CRUD::setValidation(CardRequest::class);
 
-        CRUD::field('id');
         CRUD::field('name');
         CRUD::field('description');
+
+        $this->crud->addField([
+            'label' => 'Collection',
+            'type' => 'select_multiple',
+            'name' => 'collections', // the relationship name in your Model
+            'entity' => 'collections', // the relationship name in your Model
+            'attribute' => 'name', // attribute on Article that is shown to admin
+            'model' => "App\Models\Collection",
+        ], 'update');
+
         CRUD::field('created_at');
         CRUD::field('updated_at');
 
