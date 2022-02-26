@@ -29,6 +29,7 @@ class CollectionCrudController extends CrudController
         CRUD::setModel(\App\Models\Collection::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/collection');
         CRUD::setEntityNameStrings('collection', 'collections');
+        $this->crud->removeButton('create');
     }
 
     /**
@@ -42,9 +43,19 @@ class CollectionCrudController extends CrudController
         CRUD::column('id');
         CRUD::column('name');
         CRUD::column('symbol');
+        $this->crud->addColumn([
+            'label' => 'Card',
+            'type' => 'select_multiple',
+            'name' => 'cards', // the relationship name in your Model
+            'entity' => 'cards', // the relationship name in your Model
+            'attribute' => 'name', // attribute on Article that is shown to admin
+            'model' => "App\Models\Card",
+        ], 'update');
         CRUD::column('edition_date');
         CRUD::column('created_at');
         CRUD::column('updated_at');
+        $this->crud->removeButton('create');
+        $this->crud->removeButton('update');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -68,6 +79,7 @@ class CollectionCrudController extends CrudController
         CRUD::field('edition_date');
         CRUD::field('created_at');
         CRUD::field('updated_at');
+        $this->crud->denyAccess('create');
 
         $this->crud->addField([
             'label' => 'Card',
@@ -94,5 +106,7 @@ class CollectionCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+        $this->crud->denyAccess('update');
+        $this->crud->removeButton('edit');
     }
 }

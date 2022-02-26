@@ -42,8 +42,17 @@ class CardCrudController extends CrudController
         CRUD::column('id');
         CRUD::column('name');
         CRUD::column('description');
+        $this->crud->addColumn([
+            'label' => 'Collection',
+            'type' => 'select_multiple',
+            'name' => 'collections', // the relationship name in your Model
+            'entity' => 'collections', // the relationship name in your Model
+            'attribute' => 'name', // attribute on Article that is shown to admin
+            'model' => "App\Models\Collection",
+        ], 'update');
         CRUD::column('created_at');
         CRUD::column('updated_at');
+        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
